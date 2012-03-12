@@ -1,6 +1,6 @@
 module ScrumBoard
   class RallyClient
-    def initialize
+    def connect
       @connector = RallyConnector.new(:username => rally_configuration[:username], :password => rally_configuration[:password])
       @conn = @connector.connect
       @workspace = @connector.workspace

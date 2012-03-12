@@ -38,4 +38,5 @@ group :test do
   gem 'rspec-rails', '= 2.7.0'
   gem 'mocha'
   gem "vcr", "~> 2.0.0"
+  gem 'fakeweb'
 end
