@@ -1,42 +1,4 @@
 module ScrumBoard
-  class Client
-    def self.find_team_by_name(name)
-      client.find_team_by_name(name)
-    end
-    
-    def self.find_sprints_by_team(team_name)
-      find_team_by_name(team_name).iterations
-    end
-    
-    private
-    def self.client
-      @rally_client ||= RallyClient.new
-      @rally_client
-    end
-  end
-  
-  class RallyClient
-    def initialize
-      @connector = RallyConnector.new(:username => rally_configuration[:username], :password => rally_configuration[:password])
-      @conn = @connector.connect
-      @workspace = @connector.workspace
-    end
-    
-    def find_team_by_name(name)
-      #connector.workspace.projects[7].iterations.find {|sprint| sprint.name == 'Sprint #53'}.end_date
-      #connector.workspace.projects[7].iterations.find {|sprint| sprint.name == 'Sprint #54'}.state
-      @workspace.projects.find do |project|
-        project.name.downcase == name
-      end
-    end
-    
-    private
-    def rally_configuration
-      @rally_configuration ||= ScrumBoard::Yml.read_from_config("rally_account")
-      @rally_configuration
-    end
-  end
-  
   class RallyConnector
     attr_accessor :username, :password, :custom_headers
     attr_reader :conn, :workspace, :schedule_states, :defect_states, :api_version

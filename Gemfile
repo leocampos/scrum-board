@@ -29,7 +29,7 @@ gem 'jquery-rails'
 # gem 'capistrano'
 
 # To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
+gem 'ruby-debug19', :require => 'ruby-debug'
 
 group :test do
   # Pretty printed test output
@@ -37,4 +37,5 @@ group :test do
   gem 'rspec', '= 2.7.0'
   gem 'rspec-rails', '= 2.7.0'
   gem 'mocha'
+  gem "vcr", "~> 2.0.0"
 end
