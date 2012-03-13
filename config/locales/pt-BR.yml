@@ -1,0 +1,9 @@
+# encoding: UTF-8
+pt-BR:
+  titulos:
+    chamados: "Chamados - Projetos/Times"
+    chamados-novo: "Criando Chamado"
+  
+  messages:
+    chamados:
+      nenhum: "Nenhum projeto cadastrado"

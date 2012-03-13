@@ -1,4 +1,13 @@
 ScrumBoard::Application.routes.draw do
+  match 'projects/chamados' => 'chamados#index'
+  match 'projects/:project_id/chamados/repository' => 'chamados#repository'
+  match 'projects/:project_id/chamados/qa_approved_version' => 'chamados#qa_approved_version'
+  match 'projects/:project_id/chamados/production_version' => 'chamados#production_version'
+  
+  resources :projects do
+    resources :chamados, :only => [:new]
+  end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

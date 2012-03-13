@@ -1,0 +1,85 @@
+<style>
+#chamados-novos-status {
+  margin-top: 10px;
+}
+</style>
+<script>
+blnRepositorio = false;
+blnProd = false;
+blnQA = false;
+
+atualizarRepositorio = function() {
+  $("#passo-1-status").html("Executando")
+  
+  $.ajax({
+    url: "/projects/<%=@project.id%>/chamados/repository",
+    success: function(){
+      $("#passo-1-status").html("OK")
+      blnRepositorio = true;
+      post_if_ready();
+    }
+  });
+}
+
+recuperarVersaoProd = function() {
+  $("#passo-2-status").html("Executando")
+  
+  $.ajax({
+    url: "/projects/<%=@project.id%>/chamados/production_version",
+    success: function(data){
+      blnProd = true;
+      $("#passo-2-status").html(data)
+      post_if_ready();
+    }
+  });
+}
+
+recuperarVersaoQaApproved = function() {
+  $("#passo-3-status").html("Executando")
+  
+  $.ajax({
+    url: "/projects/<%=@project.id%>/chamados/qa_approved_version",
+    success: function(data){
+      blnQA = true;
+      $("#passo-3-status").html(data)
+      post_if_ready();
+    }
+  });
+}
+
+post_if_ready = function() {
+  if(!(blnQA && blnProd && blnRepositorio))
+    return;
+    
+  alert("Deveria postar")
+}
+
+$(document).ready(function() {
+   atualizarRepositorio();
+   recuperarVersaoProd();
+   recuperarVersaoQaApproved();
+});
+</script>
+<h1><%=t('titulos.chamados-novo')%></h1>
+<table id="chamados-novos-status">
+  <tr id="passo-1">
+    <td>Recuperando/Atualizando Repositório</td>
+    <td id="passo-1-status"></td>
+  </tr>
+  <tr id="passo-2">
+    <td>Recuperando Versão de produção</td>
+    <td id="passo-2-status"></td>
+  </tr>
+  <tr id="passo-3">
+    <td>Recuperando Versão QA Approved</td>
+    <td id="passo-3-status"></td>
+  </tr>
+  <tr id="passo-4">
+    <td>Executando Template</td>
+    <td id="passo-4-status"></td>
+  </tr>
+</table>
+<form id="" action="" method="post">
+  <input type="hidden" name="prod-version"/>
+  <input type="hidden" name="qa-version"/>
+</form>

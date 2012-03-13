@@ -26,6 +26,9 @@
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
     <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
   </head>
 
   <body>
@@ -41,10 +44,10 @@
           <div class="nav-collapse">
             <ul class="nav">
 							<li class="active">
-                <a href="/">Home</a>
+							  <%=raw menu_item('root', 'Home')%>
               </li>
               <li>
-                <a href="/">Abertura de Chamados</a>
+                <%=raw menu_item('projects_chamado', 'Abertura de Chamados')%>
               </li>
             </ul>
           </div><!--/.nav-collapse -->
@@ -59,7 +62,7 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <!-- script src="/js/jquery.js"></script Imported by assets/javascripts/application.js -->
+    <!--script src="/js/jquery.js"></script Imported by assets/javascripts/application.js -->
     <script src="/js/bootstrap-transition.js"></script>
     <script src="/js/bootstrap-alert.js"></script>
     <script src="/js/bootstrap-modal.js"></script>

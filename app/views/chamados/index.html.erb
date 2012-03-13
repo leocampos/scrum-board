@@ -1,0 +1,38 @@
+<style>
+.team_container {
+  border: 1px solid #CCCCCC;
+  padding: 10px;
+  font: normal 12px/normal Arial,Helvetica,sans-serif;
+	border-radius: 5px;
+	background-color: #EFEFEF;
+	width: 45%;
+	margin:15px;
+	float: left;
+	min-height:110px;
+}
+
+.team_container li {
+  line-height: 8px;
+}
+
+.team_container ul {
+  margin-top: 8px;
+}
+</style>
+<h1><%=t('titulos.chamados')%></h1>
+<% @teams.each do |team| %>
+<div class="team_container">
+  <h3><%=team.name%></h3>
+  <%if team.projects.blank?%>
+  <%=t('messages.chamados.nenhum')%>
+  <%else
+    team.projects.each do |project|
+  %>
+  <ul>
+    <li><%=project.name%> <a href="/projects/<%=project.id%>/chamados/new">[Novo Chamado]</a></li>
+  </ul>
+  <%
+    end
+  end%>
+</div>
+<% end%>
