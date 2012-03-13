@@ -3,8 +3,8 @@ require_relative '../spec_helper'
 describe Team do
   context 'class' do
     context 'should respond to' do
-      it 'find_by_name' do
-        Team.should respond_to(:find_by_name)
+      it 'locate_by_name' do
+        Team.should respond_to(:locate_by_name)
       end
     end
     
@@ -13,7 +13,7 @@ describe Team do
         expected = [Team.new(:name=>'Esparta')]
         ScrumBoard::Client.expects(:find_team_by_name).with('Esparta').once.returns(expected)
         
-        Team.find_by_name('Esparta').should == expected
+        Team.locate_by_name('Esparta').should == expected
       end
     end
   end
