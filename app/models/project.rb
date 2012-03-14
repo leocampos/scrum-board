@@ -20,6 +20,7 @@ class Project < ActiveRecord::Base
     return if production_version_url.blank?
     
     data = `curl '#{production_version_url}'`
+    data.gsub("\n",'')
     
     return data unless data.match /^\{.*?\}$/
     
@@ -29,7 +30,8 @@ class Project < ActiveRecord::Base
   def retrieve_qa_approved_version
     return if qa_approved_url.blank?
     
-    `curl '#{qa_approved_url}'`
+    version = `curl '#{qa_approved_url}'`
+    version.gsub("\n",'')
   end
   
   def stepup_diff(data, sections=[])

@@ -7,6 +7,8 @@
 blnRepositorio = false;
 blnProd = false;
 blnQA = false;
+qa_version = '';
+prod_version = '';
 
 atualizarRepositorio = function() {
   $("#passo-1-status").html("Executando")
@@ -28,9 +30,11 @@ recuperarVersaoProd = function() {
     url: "/projects/<%=@project.id%>/chamados/production_version",
     success: function(data){
       blnProd = true;
-      $("#passo-2-status").html(data)
-      $('#prod-version').val(data)
-      post_if_ready();
+      prod_version = data;
+      
+      $("#passo-2-status").html(prod_version);
+      $('#prod-version').val(prod_version);
+      atualizar_if_ready();
     }
   });
 }
@@ -42,11 +46,24 @@ recuperarVersaoQaApproved = function() {
     url: "/projects/<%=@project.id%>/chamados/qa_approved_version",
     success: function(data){
       blnQA = true;
-      $("#passo-3-status").html(data)
-      $('#qa-version').val(data)
-      post_if_ready();
+      qa_version = data;
+      $("#passo-3-status").html(qa_version);
+      $('#qa-version').val(qa_version);
+      atualizar_if_ready();
     }
   });
+}
+
+atualizar_if_ready = function() {
+  if(!(blnQA && blnProd))
+    return;
+  
+  if(prod_version == qa_version) {
+    alert("Não há necessidade de atualização. Mesma versão em produção");
+    return;
+  }
+  
+  atualizarRepositorio()
 }
 
 post_if_ready = function() {
@@ -57,7 +74,6 @@ post_if_ready = function() {
 }
 
 $(document).ready(function() {
-   atualizarRepositorio();
    recuperarVersaoProd();
    recuperarVersaoQaApproved();
 });
@@ -75,10 +91,6 @@ $(document).ready(function() {
   <tr id="passo-3">
     <td>Recuperando Versão QA Approved</td>
     <td id="passo-3-status"></td>
-  </tr>
-  <tr id="passo-4">
-    <td>Executando Template</td>
-    <td id="passo-4-status"></td>
   </tr>
 </table>
 <form id="form_chamados" action="<%=project_chamados_path%>" method="post">
