@@ -1,6 +1,50 @@
 require 'spec_helper'
 
 describe ChamadosController do
+  describe "POST 'gerar'" do
+    before :each do
+      @project_stub = Project.new(:pilot => true)
+      Project.expects(:find).with("1").once.returns(@project_stub)
+    end
+    
+    it 'should call confluence client' do
+      post 'gerar', :project_id => "1", "chamado" => 'TEMPLATE'
+
+      response.should render_template("success")
+    end
+  end
+  
+  describe "POST 'create'" do
+    before :each do
+      @project_stub = Project.new(:pilot => true)
+      Project.expects(:find).with("1").once.returns(@project_stub)
+      
+      @qa_version = 'v5.0.0'
+      @prod_version = 'v4.8.0'
+      hash_part = {:after => @prod_version, :upto => @qa_version}
+      
+      @project_stub.expects(:stepup_diff).with(hash_part, %w[changes features bugfixes]).once
+      @project_stub.expects(:stepup_diff).with(hash_part, %w[pre_deploy]).once
+      @project_stub.expects(:stepup_diff).with(hash_part, %w[pos_deploy]).once
+      
+    end
+    
+    it 'should render "piloto" template if project is pilot' do
+      post 'create', :project_id => "1", "qa-version" => @qa_version, "prod-version" => @prod_version
+
+      response.should render_template("pilot")
+    end
+    
+    it 'should render "normal" template if project is normal' do
+      @project_stub.expects(:sha1).once
+      @project_stub.pilot = false
+      
+      post 'create', :project_id => "1", "qa-version" => @qa_version, "prod-version" => @prod_version
+
+      response.should render_template("normal")
+    end
+  end
+  
   describe "GET 'index'" do
     it 'should assign @teams' do
       Team.expects(:all).once.returns([])
@@ -43,7 +87,7 @@ describe ChamadosController do
       get 'qa_approved_version', :project_id => "1"
 
       response.should be_success
-      rendered.should == "v6.0.1"
+      response.body.should == "v6.0.1"
     end
   end
   
@@ -56,7 +100,7 @@ describe ChamadosController do
       get 'production_version', :project_id => "1"
 
       response.should be_success
-      rendered.should == "v5.0.0"
+      response.body.should == "v5.0.0"
     end
   end
 end

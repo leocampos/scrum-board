@@ -29,6 +29,7 @@ recuperarVersaoProd = function() {
     success: function(data){
       blnProd = true;
       $("#passo-2-status").html(data)
+      $('#prod-version').val(data)
       post_if_ready();
     }
   });
@@ -42,6 +43,7 @@ recuperarVersaoQaApproved = function() {
     success: function(data){
       blnQA = true;
       $("#passo-3-status").html(data)
+      $('#qa-version').val(data)
       post_if_ready();
     }
   });
@@ -51,7 +53,7 @@ post_if_ready = function() {
   if(!(blnQA && blnProd && blnRepositorio))
     return;
     
-  alert("Deveria postar")
+  document.getElementById("form_chamados").submit()
 }
 
 $(document).ready(function() {
@@ -60,7 +62,7 @@ $(document).ready(function() {
    recuperarVersaoQaApproved();
 });
 </script>
-<h1><%=t('titulos.chamados-novo')%></h1>
+<h1><%=t('titulos.chamados-novo')%> (<%=@project.name%>)</h1>
 <table id="chamados-novos-status">
   <tr id="passo-1">
     <td>Recuperando/Atualizando Repositório</td>
@@ -79,7 +81,7 @@ $(document).ready(function() {
     <td id="passo-4-status"></td>
   </tr>
 </table>
-<form id="" action="" method="post">
-  <input type="hidden" name="prod-version"/>
-  <input type="hidden" name="qa-version"/>
+<form id="form_chamados" action="<%=project_chamados_path%>" method="post">
+  <input type="hidden" name="prod-version" id="prod-version"/>
+  <input type="hidden" name="qa-version" id="qa-version"/>
 </form>
