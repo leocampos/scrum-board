@@ -1,9 +1,13 @@
+# encoding: utf-8
 require_relative '../spec_helper'
 
 describe Chamado do
   context 'instance' do
     before :each do
-      @chamado = Chamado.new(:value => 'THIS IS THE TEXT', :project => Project.new)
+      @chamado = Chamado.new(:value => 'THIS IS THE TEXT', :project => Project.new(:name => 'Teste ABC', :confluence_parent_page => 'PARENT-PAGE'))
+      
+      @client = ScrumBoard::ConfluenceClient.new
+      ScrumBoard::ConfluenceClient.stubs(:new).returns(@client)
     end
     
     context 'should respond to' do
@@ -18,16 +22,25 @@ describe Chamado do
     
     context 'should delegate to ScrumBoard::ConfluenceClient' do
       it 'when create_page called' do
-        client = ScrumBoard::ConfluenceClient.new
-        client.expects(:add_page).once
-        @chamado.create_page()
+        @client.expects(:add_page).with('teste abc - v0.5.2', 'Conteudo', :parent => 'PARENT-PAGE').once
+        @chamado.create_page('v0.5.2', 'Conteudo')
       end
       
       it 'when update_deploy_list called' do
-        client = ScrumBoard::ConfluenceClient.new
-        client.expects(:page_source).once
-        client.expects(:store_page).once
-        @chamado.update_deploy_list()
+        topo = %q{h1. Deploys dos sistemas Alexandria:
+
+
+|| Sistema || Versão || Chamado || Dt. Abertura || Dt. Execução || Status || Tipo || Motivo deploy emergencial || Problemas do deploy/Validação ||
+}
+        former_content = %Q{#{topo}
+CONTINUACAO
+}
+        linha = "| Teste ABC | v0.5.2 | [IM-000000|plataforma:teste abc - v0.5.2] | 12/03/2012 | | Aberto | Piloto | | |\n"
+        
+        @client.expects(:page_source).with('Chamados+de+deploy').once.returns(former_content)
+        @client.expects(:store_page).with('Chamados+de+deploy', %Q{#{topo}#{linha}\n\nCONTINUACAO
+}).once
+        @chamado.update_deploy_list('v0.5.2')
       end
     end
   end

@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(:version => 20120313154823) do
     t.string   "qa_approved_url"
     t.string   "production_version_url"
     t.boolean  "pilot"
+    t.string   "confluence_parent_page"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

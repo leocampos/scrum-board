@@ -58,10 +58,10 @@ atualizar_if_ready = function() {
   if(!(blnQA && blnProd))
     return;
   
-  if(prod_version == qa_version) {
-    alert("Não há necessidade de atualização. Mesma versão em produção");
-    return;
-  }
+  // if(prod_version == qa_version) {
+  //   alert("Não há necessidade de atualização. Mesma versão em produção");
+  //   return;
+  // }
   
   atualizarRepositorio()
 }

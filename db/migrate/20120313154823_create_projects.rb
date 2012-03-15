@@ -7,6 +7,7 @@ class CreateProjects < ActiveRecord::Migration
       t.string :qa_approved_url
       t.string :production_version_url
       t.boolean :pilot
+      t.string :confluence_parent_page
 
       t.timestamps
     end
