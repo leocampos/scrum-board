@@ -5,6 +5,7 @@
 #   git config --global core.excludesfile ~/.gitignore_global
 
 config/rally_account.yml
+config/confluence_account.yml
 
 # Ignore bundler config
 /.bundle
