@@ -8,17 +8,11 @@ module ScrumBoard
     
     #extras: parent, labels, replace, content2, findReplace, noConvert, encoding
     def add_page(title, content, extras)
-      extras ||= {}
-      
-      begin
-        file = write_tmp_file(content)
-        extras[:file] = file.path
-        
-        call_confluence('addPage', extras)
-      ensure
-         file.close
-         file.unlink   # deletes the temp file
-      end
+      create_or_update('add_page', title, extras)
+    end
+    
+    def store_page(title, content, extras)
+      create_or_update('store_page', title, extras)
     end
     
     private
@@ -38,15 +32,34 @@ module ScrumBoard
     end
     
     def write_tmp_file(content)
+      debugger
       temp_file = Tempfile.new 'confluence-page', Rails.root.join('tmp')
       temp_file.write(content)
-      file
+      temp_file
     end
-    
-    private
+
     def confluence_configuration
       @confluence_configuration ||= ScrumBoard::Yml.read_from_config("confluence_account")
       @confluence_configuration
+    end
+    
+    def create_or_update(action, title, extras)
+      extras ||= {}
+      extras[:title] = title
+      
+      valor = nil
+      
+      begin
+        file = write_tmp_file(content)
+        extras[:file] = file.path
+        
+        valor = call_confluence(action, extras)
+      ensure
+         file.close
+         file.unlink   # deletes the temp file
+      end
+      
+      valor
     end
   end
 end

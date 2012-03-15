@@ -9,6 +9,7 @@ class ChamadosController < ApplicationController
   end
   
   def gerar
+    render 'success'
   end
   
   def create

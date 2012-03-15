@@ -19,14 +19,14 @@ describe Chamado do
     context 'should delegate to ScrumBoard::ConfluenceClient' do
       it 'when create_page called' do
         client = ScrumBoard::ConfluenceClient.new
-        client.expects(:create_page).once
+        client.expects(:add_page).once
         @chamado.create_page()
       end
       
       it 'when update_deploy_list called' do
         client = ScrumBoard::ConfluenceClient.new
         client.expects(:page_source).once
-        client.expects(:update_page).once
+        client.expects(:store_page).once
         @chamado.update_deploy_list()
       end
     end
