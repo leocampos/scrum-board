@@ -7,12 +7,12 @@ module ScrumBoard
     end
     
     #extras: parent, labels, replace, content2, findReplace, noConvert, encoding
-    def addPage(title, content, extras)
+    def add_page(title, content, extras)
       extras ||= {}
       
       begin
         file = write_tmp_file(content)
-        extras.merge! {:file => file.path}
+        extras[:file] = file.path
         
         call_confluence('addPage', extras)
       ensure
