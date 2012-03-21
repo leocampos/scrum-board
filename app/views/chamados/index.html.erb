@@ -29,7 +29,7 @@
     team.projects.each do |project|
   %>
   <ul>
-    <li><%=project.name%> <a href="/projects/<%=project.id%>/chamados/new">[Novo Chamado]</a></li>
+    <li><%=project.name%> [<a href="/projects/<%=project.id%>/chamados/new">auto</a> | <a href="/projects/<%=project.id%>/chamados/manual">manual</a>]</li>
   </ul>
   <%
     end

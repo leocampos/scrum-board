@@ -5,10 +5,10 @@ class ChamadosController < ApplicationController
     @teams = Team.all
   end
   
-  def new
-  end
-  
   def gerar
+    chamado = Chamado.new(:project => @project, :content => params['content'])
+    chamado.generate(params['version'])
+    
     render 'success'
   end
   
@@ -47,7 +47,7 @@ class ChamadosController < ApplicationController
   private
   def retrieve_project!
     begin
-      @project = Project.find(params[:project_id])
+      @project = Project.find(params["project_id"])
     rescue ActiveRecord::RecordNotFound => e
       flash[:project_not_found] = I18n.t("errors.project.not_found")
       return redirect_to(root_path)

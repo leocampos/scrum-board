@@ -10,6 +10,7 @@ ScrumBoard::Application.routes.draw do
         get 'repository'
         get 'qa_approved_version'
         get 'production_version'
+        get 'manual'
         post 'gerar'
       end
     end

@@ -3,7 +3,12 @@
 class Chamado
   def initialize(data={})
     @project = data[:project]
-    @value = data[:value]
+    @content = data[:content]
+  end
+  
+  def generate(version, content=@content)
+    update_deploy_list version
+    create_page version, content
   end
   
   def update_deploy_list(version)
@@ -11,10 +16,10 @@ class Chamado
     
     page = add_line_to_page(page, version)
     
-    confluence_client.store_page('Chamados+de+deploy', page)
+    confluence_client.store_page('Chamados de deploy', page)
   end
   
-  def create_page(version, content)
+  def create_page(version, content=@content)
     extras = {:parent => @project.confluence_parent_page}
     
     confluence_client.add_page(page_name(version), content, extras)
@@ -30,7 +35,7 @@ class Chamado
   end
   
   def add_line_to_page(page, version)
-    linha = "| #{@project.name} | #{version} | [IM-000000|plataforma:#{page_name(version)}] | 12/03/2012 | | Aberto | Piloto | | |\n"
+    linha = "| #{@project.name} | #{version} | [IM-000000|plataforma:#{page_name(version)}] | 12/03/2012 | | Aberto | Piloto | | |"
     
     remaining_page = page.match(/\|\| Sistema [^\n]*$/).post_match
     topo = %q{h1. Deploys dos sistemas Alexandria:

@@ -8,9 +8,23 @@ describe ChamadosController do
     end
     
     it 'should call confluence client' do
-      post 'gerar', :project_id => "1", "chamado" => 'TEMPLATE'
+      content = 'TEMPLATE'
+      chamado_stub = Chamado.new(:project => @project_stub, :content => content)
+      
+      Chamado.expects(:new).with(:project => @project_stub, :content => content).returns(chamado_stub)
+      chamado_stub.expects(:generate).with('v1.9.0').once
+      
+      post 'gerar', "project_id" => "1", "content" => content, 'version' => 'v1.9.0'
 
       response.should render_template("success")
+    end
+  end
+  
+  describe "GET 'manual'" do
+    it 'should render manual template' do
+      get 'manual', "project_id" => "1"
+
+      response.should be_success
     end
   end
   
@@ -30,7 +44,7 @@ describe ChamadosController do
     end
     
     it 'should render "piloto" template if project is pilot' do
-      post 'create', :project_id => "1", "qa-version" => @qa_version, "prod-version" => @prod_version
+      post 'create', "project_id" => "1", "qa-version" => @qa_version, "prod-version" => @prod_version
 
       response.should render_template("pilot")
     end
@@ -39,7 +53,7 @@ describe ChamadosController do
       @project_stub.expects(:sha1).once
       @project_stub.pilot = false
       
-      post 'create', :project_id => "1", "qa-version" => @qa_version, "prod-version" => @prod_version
+      post 'create', "project_id" => "1", "qa-version" => @qa_version, "prod-version" => @prod_version
 
       response.should render_template("normal")
     end
@@ -60,7 +74,7 @@ describe ChamadosController do
       expected = Project.new
       Project.expects(:find).with("1").once.returns(expected)
       
-      get 'new', :project_id => "1"
+      get 'new', "project_id" => "1"
       assigns(:project).should == expected
       response.should be_success
     end
@@ -72,7 +86,7 @@ describe ChamadosController do
       Project.expects(:find).with("1").once.returns(expected)
       expected.expects(:retrieve_repository).once
       
-      get 'repository', :project_id => "1"
+      get 'repository', "project_id" => "1"
 
       response.should be_success
     end
@@ -84,7 +98,7 @@ describe ChamadosController do
       Project.expects(:find).with("1").once.returns(expected)
       expected.expects(:retrieve_qa_approved_version).once.returns("v6.0.1")
       
-      get 'qa_approved_version', :project_id => "1"
+      get 'qa_approved_version', "project_id" => "1"
 
       response.should be_success
       response.body.should == "v6.0.1"
@@ -97,7 +111,7 @@ describe ChamadosController do
       Project.expects(:find).with("1").once.returns(expected)
       expected.expects(:retrieve_production_version).once.returns("v5.0.0")
       
-      get 'production_version', :project_id => "1"
+      get 'production_version', "project_id" => "1"
 
       response.should be_success
       response.body.should == "v5.0.0"

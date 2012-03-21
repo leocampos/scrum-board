@@ -1,7 +1,10 @@
 <form id="form_chamados" action="<%=gerar_project_chamados_path%>" method="post">
-<input type="hidden" name="version" value="<%=@version%>"/>
+Versão:<br/>
+<input type="text" name="version" value="<%=@version%>"/><br/>
+Conteúdo:<br/>
 <textarea style="width:90%;height:500px;" name="content">
-<%=@version%>
-</textarea><br/>
+
+</textarea>
+<br/>
 <input type="submit" value="OK, Criar chamado"/>
 </form>
