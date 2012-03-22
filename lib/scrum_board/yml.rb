@@ -10,7 +10,7 @@ module ScrumBoard
     end
 
     def self.read_from_config(file, env = ::Rails.env)
-      yaml_file = File.join("config",file)
+      yaml_file = File.join(Rails.root, "config", file)
       configs = env ? read(yaml_file)[::Rails.env] : read(yaml_file)
       configs.is_a?(Hash) ? self.symbolize_keys(configs) : configs
     end

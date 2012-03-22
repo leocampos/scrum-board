@@ -2,6 +2,12 @@
 
 module ScrumBoard
   class ConfluenceClient
+    def self.encode(text)
+      text = text.gsub('[', '\[').gsub('{', '\{')
+      num_spaces = text.match(/^ */)[0].size
+      text.sub(/^ {#{num_spaces}}/, '&nbsp;' * num_spaces)
+    end
+    
     def page_source(title, space='plataforma')
       title = title.gsub(/\+/, ' ')
       
@@ -11,7 +17,6 @@ module ScrumBoard
     
     #extras: parent, labels, replace, content2, findReplace, noConvert, encoding
     def add_page(title, content, extras=nil)
-      debugger
       create_or_update('addPage', title, content, extras)
     end
     
@@ -34,6 +39,7 @@ module ScrumBoard
         command += " --#{key}='#{value}'"
       end
 
+      debugger
       if action == 'getSource'
         path = temp_file_path
         
@@ -61,7 +67,8 @@ module ScrumBoard
     def default_extras(given_extras={})
       extras = given_extras || {}
       
-      extras[:encoding] = 'ISO-8859-1' unless given_extras.has_key?(:encoding)
+      extras[:encoding] = 'UTF-8' unless given_extras.has_key?(:encoding)
+      extras
     end
     
     def create_or_update(action, title, content, extras)

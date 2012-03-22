@@ -37,10 +37,11 @@ describe ChamadosController do
       @prod_version = 'v4.8.0'
       hash_part = {:after => @prod_version, :upto => @qa_version}
       
-      @project_stub.expects(:stepup_diff).with(hash_part, %w[changes features bugfixes]).once
-      @project_stub.expects(:stepup_diff).with(hash_part, %w[pre_deploy]).once
-      @project_stub.expects(:stepup_diff).with(hash_part, %w[pos_deploy]).once
+      @project_stub.expects(:stepup_diff).with(hash_part, %w[changes features bugfixes]).once.returns('A')
+      @project_stub.expects(:stepup_diff).with(hash_part, %w[pre_deploy]).once.returns('B')
+      @project_stub.expects(:stepup_diff).with(hash_part, %w[pos_deploy]).once.returns('C')
       
+      ScrumBoard::ConfluenceClient.expects(:encode).times(3)
     end
     
     it 'should render "piloto" template if project is pilot' do

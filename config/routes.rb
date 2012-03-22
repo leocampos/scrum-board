@@ -4,6 +4,8 @@ ScrumBoard::Application.routes.draw do
   # match 'projects/:project_id/chamados/qa_approved_version' => 'chamados#qa_approved_version'
   # match 'projects/:project_id/chamados/production_version' => 'chamados#production_version'
   
+  resources :teams
+  
   resources :projects, :only => [:index] do
     resources :chamados, :only => [:new, :create] do
       collection do

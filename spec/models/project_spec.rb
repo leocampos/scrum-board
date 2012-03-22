@@ -61,7 +61,7 @@ describe Project do
         qa_version = 'v5.0.1'
         prod_version = 'v4.0.5'
         
-        @project.expects(:`).with("stepup notes --after=#{prod_version} --upto=#{qa_version}").once.returns("TESTE")
+        @project.expects(:`).with("stepup notes --fetch --after=#{prod_version} --upto=#{qa_version}").once.returns("TESTE")
         @project.stepup_diff(:after => prod_version, :upto => qa_version).should == "TESTE"
       end
       
@@ -69,7 +69,7 @@ describe Project do
         qa_version = 'v5.0.1'
         prod_version = 'v4.0.5'
         
-        @project.expects(:`).with("stepup notes --sections=changes features bugfixes").once.returns("TESTE")
+        @project.expects(:`).with("stepup notes --fetch --sections=changes features bugfixes").once.returns("TESTE")
         @project.stepup_diff(nil,['changes','features','bugfixes']).should == "TESTE"
       end
     end

@@ -36,7 +36,7 @@ class Project < ActiveRecord::Base
   
   def stepup_diff(data, sections=[])
     data ||= {}
-    command = 'stepup notes'
+    command = 'stepup notes --fetch'
     
     data.each_pair do |chave, valor|
       command += " --#{chave}=#{valor}"
@@ -46,6 +46,7 @@ class Project < ActiveRecord::Base
       command += " --sections=#{sections.join(' ')}"
     end
     
+    set_current_dir
     clean_stepup_notes `#{command}`
   end
   
@@ -56,11 +57,20 @@ class Project < ActiveRecord::Base
   
   private
   def repositories_dir
-    File.join(Rails.root, 'repositories')
+    return @rep_dir_name unless @rep_dir_name.blank?
+    @rep_dir_name = File.join(Rails.root, 'repositories')
+    @rep_dir_name
   end
   
   def retrive_dir_name
-    File.join(repositories_dir, repository.match(/([^\/]+)\.git/)[1])
+    return @dir_name unless @dir_name.blank?
+    
+    @dir_name = File.join(repositories_dir, repository.match(/([^\/]+)\.git/)[1])
+    @dir_name
+  end
+  
+  def set_current_dir
+    Dir.chdir retrive_dir_name
   end
   
   def clean_stepup_notes(text)

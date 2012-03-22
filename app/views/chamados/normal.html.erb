@@ -1,7 +1,78 @@
 <form id="form_chamados" action="<%=gerar_project_chamados_path%>" method="post">
 <input type="hidden" name="version" value="<%=@version%>"/>
 <textarea style="width:90%;height:500px;" name="content">
+*1 - Motivo: (Informa qual alteração vai ser feita no site)*
+<%=@motivo%>
+
+*2 - Resultado: (Informa o resultado desejado do Deploy)*
+Alterações aplicadas com sucesso
+
+*3 - Data solicitada: (Informa a data/hora desejada para execução).*
+
+*4 - Resp. pelo Acompanhamento: (informar quem vai estar no Local para acompanhar).*
+<%=@project.team.scrum_master%>
+
+*5 - Resp. pela validação: (informar quem vai validar após execução).*
+<%=@project.team.scrum_master%>
+
+*6 - Resp. pelo produto: (informar quem é o responsável).*
+<%=@project.team.product_owner%> (PO), <%=@project.team.scrum_master%> (SM)
+
+*7 - Impacto: (Informa qual o Impacto deste Deploy).*
+Nenhum impacto para Infra
+
+*8 - Afeta apenas este produto?*
+Não
+
+*9 - Afeta outros Produtos? (Qual e quem é o responsável por outros Produtos.).*
+Sim, todos aqueles que usam o Alexandria (Ricardo Sazima e redações)
+
+*10 - Pré-requisitos (Informar o que pode ser feito antes do Deploy, Ex. BKP).*
+<%=@pre_deploy%>
+
+*11 - Procedimento de implantação:*
+  repositório git: <%=@project.repository%>
+  TAG=<%=@version%> cap production deploy
+  <%=@pos_deploy%>
+
+*12 - Qual a changelog? (link para changelog na wikiti).*
+[https://confluence.abril.com.br/display/plataforma/<%=@chamado.page_name @version%>]
+
+*13 - Qual a TAG/Versão?*
 <%=@version%>
+
+*14 - Qual a Hash da TAG?*
+<%=@project.sha1 @version%>
+
+*15 - Qual a versão da Gem?*
+Usamos bundler
+
+*16 - Qual a instancia do banco para backup? (Informar qual a instancia do banco)*
+Não há alterações de banco de dados
+
+*17 - Tem Rake? Caso sim, qual o tempo aproximado de execução?*
+Não
+
+*18 - É necessário fazer flush na Akamai? Caso sim, qual(is) Pasta(s)/Arquivo(s)?*
+Não
+
+*19 - Houve validação de Segurança?*
+Não
+
+*20 - Houve validação de QA?*
+Sim
+
+*21 - Qual a janela prevista para o deploy (tempo total de execução)?*
+1 hora
+
+*22 - Plano de retorno (Informar o que deve ser feito para restaurar o ambiente)*
+TAG=<%=@former_version%> cap production deploy
+
+*23 - Existe algum ponto de atenção ou exceção a regra que queira comunicar?*
+Não
+
+*24 - Quem deverá ser informado após Deploy?*
+<%=@project.team.scrum_master%>
 </textarea><br/>
 <input type="submit" value="OK, Criar chamado"/>
 </form>

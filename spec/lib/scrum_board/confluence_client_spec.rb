@@ -1,6 +1,28 @@
 require_relative '../../spec_helper'
 
 describe ScrumBoard::ConfluenceClient do
+  context 'class' do
+    context 'should respond to' do
+      it 'encode' do
+        ScrumBoard::ConfluenceClient.should respond_to(:encode)
+      end
+    end
+    
+    context 'on receiving a call to encode' do
+      it 'should replace [ caracter for \[' do
+        ScrumBoard::ConfluenceClient.encode("Texto [com um exemplo]").should == 'Texto \[com um exemplo]'
+      end
+      
+      it 'should replace { caracter for \{' do
+        ScrumBoard::ConfluenceClient.encode("Texto {com um exemplo}").should == 'Texto \{com um exemplo}'
+      end
+      
+      it 'should replace leading spaces with &nbsp;' do
+        ScrumBoard::ConfluenceClient.encode("   Texto").should == '&nbsp;&nbsp;&nbsp;Texto'
+      end
+    end
+  end
+  
   context 'instance' do
     before :each do
       @client = ScrumBoard::ConfluenceClient.new

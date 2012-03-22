@@ -41,3 +41,5 @@ group :test do
   gem "vcr", "~> 2.0.0"
   gem 'fakeweb'
 end
+
+gem 'step-up', "~> 0.8.0", :group => [:preparing]

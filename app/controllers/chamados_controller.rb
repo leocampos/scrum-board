@@ -13,14 +13,15 @@ class ChamadosController < ApplicationController
   end
   
   def create
+    @chamado = Chamado.new(:project => @project)
     @version = params["qa-version"]
     @former_version = params["prod-version"]
     
     hash_part = {:after => @former_version, :upto => @version}
     
-    @motivo = @project.stepup_diff(hash_part, %w[changes features bugfixes])
-    @pre_deploy = @project.stepup_diff(hash_part, %w[pre_deploy])
-    @pos_deploy = @project.stepup_diff(hash_part, %w[pos_deploy])
+    @motivo = ScrumBoard::ConfluenceClient.encode(@project.stepup_diff(hash_part, %w[changes features bugfixes]))
+    @pre_deploy = ScrumBoard::ConfluenceClient.encode(@project.stepup_diff(hash_part, %w[pre_deploy]))
+    @pos_deploy = ScrumBoard::ConfluenceClient.encode(@project.stepup_diff(hash_part, %w[pos_deploy]))
     
     if @project.pilot?
       render 'pilot'

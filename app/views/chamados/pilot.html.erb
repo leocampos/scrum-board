@@ -1,36 +1,36 @@
 <form id="form_chamados" action="<%=gerar_project_chamados_path%>" method="post">
 <input type="hidden" name="version" value="<%=@version%>"/>
 <textarea style="width:90%;height:500px;" name="content">
-1 – Número do Chamado:
+*1 – Número do Chamado:*
 
 
-2 - Você está fazendo deploy de qual sistema/produto?
+*2 - Você está fazendo deploy de qual sistema/produto?*
 <%=@project.name%>
 
-3 - Implementações desta versão:
+*3 - Implementações desta versão:*
 
 <%=@motivo%>
 
-4 - Janela desejada (data e horário):
+*4 - Janela desejada (data e horário):*
 
 
-5 – Responsável técnico ou seu backup com os telefones de contato:
+*5 – Responsável técnico ou seu backup com os telefones de contato:*
 <%=@project.team.scrum_master%>
 
-6 – Possíveis Impactos/Indisponibilidades durante o deploy (desse e de outros produtos):
+*6 – Possíveis Impactos/Indisponibilidades durante o deploy (desse e de outros produtos):*
 
 
-7 - Pré-requisitos:
+*7 - Pré-requisitos:*
 <%=@pre_deploy%>
 
-8 - Repositório da código da aplicação:
+*8 - Repositório da código da aplicação:*
 <%=@project.repository%>
 
-9 - Procedimento de implantação (Deploy Guide):
+*9 - Procedimento de implantação (Deploy Guide):*
 TAG=<%=@version%> cap production deploy
 <%=@pos_deploy%>
 
-10 – Plano de Retorno:
+*10 – Plano de Retorno:*
 TAG=<%=@former_version%> cap production deploy
 </textarea><br/>
 <input type="submit" value="OK, Criar chamado"/>

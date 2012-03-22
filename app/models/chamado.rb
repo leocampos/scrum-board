@@ -25,13 +25,13 @@ class Chamado
     confluence_client.add_page(page_name(version), content, extras)
   end
   
+  def page_name(version)
+    "#{@project.name.downcase} - #{version}"
+  end
+  
   private
   def confluence_client
     @client ||= ScrumBoard::ConfluenceClient.new
-  end
-  
-  def page_name(version)
-    "#{@project.name.downcase} - #{version}"
   end
   
   def add_line_to_page(page, version)
