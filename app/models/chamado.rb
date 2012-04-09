@@ -29,13 +29,17 @@ class Chamado
     "#{@project.name.downcase} - #{version}"
   end
   
+  def today
+    Time.now.strftime("%d/%m/%Y")
+  end
+  
   private
   def confluence_client
     @client ||= ScrumBoard::ConfluenceClient.new
   end
   
   def add_line_to_page(page, version)
-    linha = "| #{@project.name} | #{version} | [IM-000000|plataforma:#{page_name(version)}] | 12/03/2012 | | Aberto | Piloto | | |"
+    linha = "| #{@project.name} | #{version} | [IM-000000|plataforma:#{page_name(version)}] | #{today} | | Aberto | Piloto | | |"
     
     remaining_page = page.match(/\|\| Sistema [^\n]*$/).post_match
     topo = %q{h1. Deploys dos sistemas Alexandria:

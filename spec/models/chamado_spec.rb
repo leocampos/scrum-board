@@ -40,6 +40,7 @@ describe Chamado do
       end
       
       it 'when update_deploy_list called' do
+        @chamado.expects(:today).returns('12/03/2012')
         topo = %q{h1. Deploys dos sistemas Alexandria:
 
 
