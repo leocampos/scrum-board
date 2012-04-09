@@ -47,7 +47,10 @@ class Project < ActiveRecord::Base
     end
     
     set_current_dir
-    clean_stepup_notes `#{command}`
+    retorno = clean_stepup_notes `#{command}`
+    
+    return 'n/a' if retorno =~ /Invalid section: /
+    retorno
   end
   
   def sha1(version)

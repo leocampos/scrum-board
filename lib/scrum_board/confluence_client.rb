@@ -39,7 +39,6 @@ module ScrumBoard
         command += " --#{key}='#{value}'"
       end
 
-      debugger
       if action == 'getSource'
         path = temp_file_path
         

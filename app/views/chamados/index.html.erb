@@ -22,7 +22,7 @@
 <h1><%=t('titulos.chamados')%></h1>
 <% @teams.each do |team| %>
 <div class="team_container">
-  <h3><%=team.name%> [<a href="<%=edit_team_path%>">edit</a>]</h3>
+  <h3 style="display:inline;"><%=team.name%></h3> [<a href="<%=edit_team_path(team)%>">edit</a>]<br/>
   <%if team.projects.blank?%>
   <%=t('messages.chamados.nenhum')%>
   <%else

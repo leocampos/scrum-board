@@ -72,6 +72,14 @@ describe Project do
         @project.expects(:`).with("stepup notes --fetch --sections=changes features bugfixes").once.returns("TESTE")
         @project.stepup_diff(nil,['changes','features','bugfixes']).should == "TESTE"
       end
+      
+      it 'should return "n/a" if Invalid section' do
+        qa_version = 'v5.0.1'
+        prod_version = 'v4.0.5'
+        
+        @project.expects(:`).with("stepup notes --fetch --sections=pos_deploy").once.returns("Invalid section: pos_deploy")
+        @project.stepup_diff(nil,%w[pos_deploy]).should == "n/a"
+      end
     end
     
     context 'on receiving a call to sha1' do
