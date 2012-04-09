@@ -1,0 +1,16 @@
+<p id="notice"><%= notice %></p>
+
+<h1>
+  <%= @team.name %>
+</h1>
+<p>
+  <b>SM:</b><br/>
+  <%= @team.scrum_master %>
+</p>
+<p>
+  <b>PO:</b><br/>
+  <%= @team.product_owner %>
+</p>
+
+<%= link_to 'Editar', edit_team_path(@team) %> |
+<%= link_to 'Voltar', teams_path %>
