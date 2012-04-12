@@ -1,14 +1,19 @@
-<h1>Times</h1>
-<table>
-  <tr>
-    <th>Name</th>
-    <th>SM</th>
-    <th>PO</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<div class="page-header">
+  <h1>Times</h1>
+</div>
 
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>SM</th>
+      <th>PO</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
 <% @teams.each do |team| %>
   <tr>
     <td><%= team.name %></td>
@@ -19,7 +24,8 @@
     <td><%= link_to 'Excluir', team, confirm: 'Tem certeza?', method: :delete %></td>
   </tr>
 <% end %>
+  </tbody>
 </table>
 
 <br />
-<%= link_to 'Novo Time', new_team_path %>
+<%= link_to 'Novo Time', new_team_path, :class => 'btn btn-primary' %>

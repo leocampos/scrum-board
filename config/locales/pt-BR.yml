@@ -7,3 +7,5 @@ pt-BR:
   messages:
     chamados:
       nenhum: "Nenhum projeto cadastrado"
+    times:
+      nenhum: "Nenhuma equipe cadastrada"

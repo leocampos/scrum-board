@@ -8,3 +8,5 @@ en:
   messages:
     chamados:
       nenhum: "No projects found"
+    times:
+      nenhum: "No team found"
